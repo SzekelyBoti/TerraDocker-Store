@@ -1,0 +1,15 @@
+{
+  "name": "my-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    
+  },
+  "scripts": {
+    "start": "serve -s public", 
+    "build": "echo 'Build process can be added here'"
+  },
+  "devDependencies": {
+    "serve": "^14.0.1"
+  }
+}
