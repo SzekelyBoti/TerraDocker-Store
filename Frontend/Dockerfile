@@ -9,7 +9,7 @@ RUN npm install
 COPY src/ ./src
 COPY public/ ./public
 
-EXPOSE 3000
+EXPOSE 3090
 
 CMD ["npm", "start"]
 
