@@ -1,4 +1,4 @@
-const page = window.location.href;
+const page = window.location.pathname;
 const adminPW = "asd";
 let shoppingCart = [];
 let isEditFormActive = false;

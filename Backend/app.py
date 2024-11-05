@@ -4,10 +4,14 @@ from sqlalchemy.orm import sessionmaker
 from models import Game, Base
 import os
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "..", "frontend", "public"))
-DATABASE_URL = 'sqlite:///games.db' 
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "..", "Frontend", "public"))
+DATABASE_URL = 'sqlite:///games.db'
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
+
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder, "index.html")
 
 @app.route('/admin')
 def admin():
@@ -16,6 +20,9 @@ def admin():
 @app.route('/cart')
 def cart():
     return send_from_directory(app.static_folder, "index.html")
+@app.route('/src/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(os.path.join(os.path.dirname(__file__), "..", "Frontend", "src"), filename)
 
 @app.route('/api/shop', methods=['GET'])
 def get_shop():
@@ -89,5 +96,5 @@ def game_to_dict(game):
     }
 
 if __name__ == '__main__':
-    Base.metadata.create_all(engine) 
-    app.run(port=8000)
+    Base.metadata.create_all(engine)
+    app.run(debug=True, host='0.0.0.0', port=3001)

@@ -5,7 +5,7 @@ services:
     build:
       context: ./Frontend
     ports:
-      - "3090:3090"
+      - "3001:3000"
     environment:
       - NODE_ENV=development
     depends_on:
@@ -15,7 +15,7 @@ services:
     build:
       context: ./Backend
     ports:
-      - "5090:5090"
+      - "5001:5000"
     environment:
       - DATABASE_URL=sqlite:///games.db
     volumes:
