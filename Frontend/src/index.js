@@ -4,11 +4,11 @@ let shoppingCart = [];
 let isEditFormActive = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (page === "http://localhost:8000/") {
+  if (page === "/") {
     main();
   }
 
-  if (page === "http://localhost:8000/admin") {
+  if (page === "/admin") {
     const loginForm = document.createElement("form");
     loginForm.setAttribute("id", "loginDiv");
     loginForm.innerHTML = `
@@ -69,17 +69,17 @@ document.addEventListener("click", (event) => {
   const gameContainer = document.getElementById("gameContainer");
 
   if (event.target.id === "navLogo") {
-    window.location.href = "http://localhost:8000/";
+    window.location.href = "/";
     gameContainer.innerHTML = "";
   }
 
   if (event.target.id === "login") {
-    window.location.replace("http://localhost:8000/admin");
+    window.location.replace("/admin");
     gameContainer.innerHTML = "";
   }
 
   if (event.target.id === "logout") {
-    window.location.replace("http://localhost:8000/");
+    window.location.replace("/");
   }
 
   if (event.target.id === "editButton") {
@@ -96,7 +96,7 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.id === "shopCart") {
-    if (page === "http://localhost:8000/admin") {
+    if (page === "/admin") {
       alert(
         "You are logged in as an Admin, there can't be anything in your cart"
       );
@@ -109,7 +109,7 @@ document.addEventListener("click", (event) => {
     }
 
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
-    window.location.replace("http://localhost:8000/cart");
+    window.location.replace("/cart");
   }
 });
 
@@ -132,7 +132,7 @@ const gameHTML = (game) => {
   <div class="container1">
     <div class="gamePrice" id="gamePrice">$ ${game.price}</div><span id="cart" class="gameCart">🛒</span>
     <div class="gameQuantity" id="gameQuantity"><span class="red">${game.quantity}</span> LEFT FOR SALE</div>`;
-  if (page === "http://localhost:8000/admin") {
+  if (page === "/admin") {
     htmlContent += `<div id="editButton">Edit</div></div></div> `;
     return htmlContent;
   } else {
@@ -233,7 +233,7 @@ const addGame = async () => {
     };
 
     try {
-      const postResponse = await fetch("http://localhost:8000/shop", {
+      const postResponse = await fetch("/shop", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -310,7 +310,7 @@ const editGame = async (gameId, bigBoy) => {
         };
 
         try {
-          const response = await fetch(`http://localhost:8000/shop/${gameId}`, {
+          const response = await fetch(`/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -341,7 +341,7 @@ const editGame = async (gameId, bigBoy) => {
 
 async function deleteGame(gameId, bigBoy) {
   try {
-    const response = await fetch(`http://localhost:8000/shop/${gameId}`, {
+    const response = await fetch(`/shop/${gameId}`, {
       method: "DELETE",
     });
 
@@ -377,7 +377,7 @@ const main = async () => {
   gameContainer.innerHTML = "";
 
   try {
-    const games = await fetchData("http://localhost:8000/api/shop");
+    const games = await fetchData("/api/shop");
     if (games) {
       renderGames(games);
     }
@@ -423,7 +423,7 @@ const quickEditDetails = async (gameId) => {
         };
 
         try {
-          const response = await fetch(`http://localhost:8000/shop/${gameId}`, {
+          const response = await fetch(`/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -522,7 +522,7 @@ async function fadeInCard(card) {
     addToCart.addEventListener("click", () => addGameToCart(currentGame.id))
   );
 
-  if (page === "http://localhost:8000/admin") {
+  if (page === "/admin") {
     const adminEdit = document.createElement("div");
     adminEdit.classList.add("adminEdit");
     adminEdit.id = "adminEdit";
@@ -568,7 +568,7 @@ async function fadeInCard(card) {
 
 async function fetchGame(id) {
   try {
-    const response = await fetch("http://localhost:8000/shop/" + id);
+    const response = await fetch("/shop/" + id);
     return await response.json();
   } catch (error) {
     console.error(error);
@@ -577,7 +577,7 @@ async function fetchGame(id) {
 
 const addGameToCart = async (gameId) => {
   try {
-    const response = await fetch("http://localhost:8000/shop/" + gameId);
+    const response = await fetch("/shop/" + gameId);
     const game = await response.json();
     if (!shoppingCart.some((item) => item.id === game.id)) {
       const gameContainer = document.getElementById("gameContainer");
@@ -637,7 +637,7 @@ const addGameToCart = async (gameId) => {
 };
 
 window.onload = function () {
-  if (window.location.href === "http://localhost:8000/cart") {
+  if (window.location.href === "/cart") {
     let totalPrice = 0;
 
     const savedCart = localStorage.getItem("cart");
@@ -729,7 +729,7 @@ window.onload = function () {
             quantity: totalQuantity - userQuantity,
           };
 
-          const response = await fetch(`http://localhost:8000/shop/${gameId}`, {
+          const response = await fetch(`/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
