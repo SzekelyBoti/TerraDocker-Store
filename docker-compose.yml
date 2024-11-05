@@ -3,20 +3,20 @@ version: '3.3'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
     depends_on:
-      - backend
+      - Backend
 
   backend:
     build:
-      context: ./backend
+      context: ./Backend
     ports:
       - "5000:5000"
     environment:
       - DATABASE_URL=sqlite:///games.db
     volumes:
-      - ./backend:/app
+      - ./Backend:/app
