@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: node-frontend
-          image: your-dockerhub-username/node-frontend:latest  # Replace with your Docker image
+          image: boti95/store-frontend:latest
           ports:
             - containerPort: 3000 
           env:
