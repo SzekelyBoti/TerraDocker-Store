@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Game, Base
 import os
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__),"..", "Frontend", "src"), static_url_path="/src")
+CORS(app, resources={r"/api/*": {"origins": "http://frontend:3000"}})
 DATABASE_URL = 'sqlite:///games.db'
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
