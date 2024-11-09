@@ -10,13 +10,29 @@ echo "1) Run locally with Docker Compose"
 echo "2) Deploy to Minikube"
 read -p "Enter choice [1 or 2]: " choice
 
+create_db() {
+  echo -e "${GREEN}Creating and populating the database...${NC}"
+  python3 python3 Backend/populate_db.py
+  if [ $? -eq 0 ]; then
+    echo -e "${GREEN}Database created and populated successfully.${NC}"
+  else
+    echo -e "${RED}Error occurred while creating the database.${NC}"
+    exit 1
+  fi
+}
+
 if [ "$choice" == "1" ]; then
+  
+  create_db
+
   echo -e "${GREEN}Running locally with Docker Compose...${NC}"
   docker-compose up --build
 
 elif [ "$choice" == "2" ]; then
   echo -e "${GREEN}Deploying to Minikube...${NC}"
   
+  create_db
+
   minikube start
 
   kubectl apply -f minikube/backend-deployment.yaml
@@ -29,3 +45,4 @@ elif [ "$choice" == "2" ]; then
 else
   echo -e "${RED}Invalid choice. Exiting setup.${NC}"
 fi
+

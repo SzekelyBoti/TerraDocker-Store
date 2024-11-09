@@ -116,8 +116,7 @@ document.addEventListener("click", (event) => {
 const fetchData = async (url) => {
   try {
     const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    return response.json();
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -126,7 +125,7 @@ const fetchData = async (url) => {
 const gameHTML = (game) => {
   let htmlContent = `
   <div class="card" id="${game.id}" onclick="toggleCardScale(this)" ondblclick="fadeInCard(this)">
-    <img class="gameImage" src="${game.image}" alt="${game.title}"></img>
+    <img class="gameImage" src="${game.image}" alt="${game.title}">
     <div class="gameName" id="gameName">${game.name}</div>
     <div class="gameGenre" id="gameGenre">${game.genre}</div>
   <div class="container1">
@@ -176,7 +175,7 @@ const addGame = async () => {
   bigBoy.classList.add("visible");
 
   const newGameForm = document.createElement("form");
-  //newGameForm.classList.add("newForm");
+  
   newGameForm.innerHTML = `
     <label for="newName">Name:</label>
     <input type="text" id="newName" name="newName" required><br><br>
@@ -218,7 +217,7 @@ const addGame = async () => {
       bigBoy.style.display = "none";
     }, 600);
   };
-
+  
   const submitFormHandler = async (event) => {
     event.preventDefault();
     const newGame = {
@@ -517,10 +516,7 @@ async function fadeInCard(card) {
   addToCart.id = "bigAddToCart";
   addToCart.textContent = "Add to cart";
   bigBoy.appendChild(addToCart);
-  addToCart.addEventListener(
-    "click",
-    addToCart.addEventListener("click", () => addGameToCart(currentGame.id))
-  );
+  addToCart.addEventListener("click",() => addGameToCart(currentGame.id));
 
   if (page === "/admin") {
     const adminEdit = document.createElement("div");
@@ -637,7 +633,7 @@ const addGameToCart = async (gameId) => {
 };
 
 window.onload = function () {
-  if (window.location.href === "/cart") {
+  if (page === "/cart") {
     let totalPrice = 0;
 
     const savedCart = localStorage.getItem("cart");

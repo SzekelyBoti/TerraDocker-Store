@@ -2,9 +2,10 @@ from flask import Flask, jsonify, request, send_from_directory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Game, Base
+from datetime import datetime
 import os
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "..", "Frontend", "public"))
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__),"..", "Frontend", "src"), static_url_path="/src")
 DATABASE_URL = 'sqlite:///games.db'
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -20,36 +21,54 @@ def admin():
 @app.route('/cart')
 def cart():
     return send_from_directory(app.static_folder, "index.html")
-@app.route('/src/<path:filename>')
-def serve_static(filename):
-    return send_from_directory(os.path.join(os.path.dirname(__file__), "..", "Frontend", "src"), filename)
 
 @app.route('/api/shop', methods=['GET'])
 def get_shop():
     with Session() as session:
         games = session.query(Game).all()
         return jsonify([game_to_dict(game) for game in games])
-
+ 
 @app.route('/shop/<int:game_id>', methods=['GET'])
 def get_game(game_id):
-    with Session() as session:
-        game = session.query(Game).filter_by(id=game_id).first()
-        if game:
-            return jsonify(game_to_dict(game))
-        else:
+     with Session() as session:
+       game = session.query(Game).filter_by(id=game_id).first()
+       if game:
+        return jsonify(game_to_dict(game))
+       else:
             return jsonify({"state": "Game not found"}), 404
+
+from datetime import datetime
 
 @app.route('/shop', methods=['POST'])
 def add_game():
     try:
+        release_date = datetime.strptime(request.json['release_date'], '%Y-%m-%d').date()
+        data = request.json
+        required_fields = ['name', 'genre', 'price', 'image']
+        if not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 400
+        
+        new_game = Game(
+            name=data.get('name'),
+            genre=data.get('genre'),
+            price=data.get('price'),
+            quantity=data.get('quantity'),
+            release_date=release_date,
+            description=data.get('description'),
+            developer=data.get('developer'),
+            image=data.get('image')
+        )
         with Session() as session:
-            new_game = Game(**request.json)
             session.add(new_game)
             session.commit()
+            
+            session.refresh(new_game)
             return jsonify(game_to_dict(new_game)), 201
+
     except Exception as error:
         print("Error adding new game:", error)
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 @app.route('/shop/<int:game_id>', methods=['PATCH'])
 def update_game(game_id):
