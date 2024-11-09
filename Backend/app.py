@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request, send_from_directory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Game, Base
-from datetime import datetime
 import os
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__),"..", "Frontend", "src"), static_url_path="/src")
@@ -116,4 +115,4 @@ def game_to_dict(game):
 
 if __name__ == '__main__':
     Base.metadata.create_all(engine)
-    app.run(debug=True, host='0.0.0.0', port=3001)
+    app.run(debug=True, host='0.0.0.0', port=5000)
