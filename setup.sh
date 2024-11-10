@@ -8,7 +8,7 @@ echo -e "${GREEN}Starting project setup...${NC}"
 
 if [ -f ./Backend/games.db ]; then
   echo -e "${RED}Removing existing games.db file...${NC}"
-  rm ./Backend/games.db
+  rm -rf ./Backend/games.db
 else
   echo -e "${GREEN}No existing games.db file found. Proceeding with setup.${NC}"
 fi

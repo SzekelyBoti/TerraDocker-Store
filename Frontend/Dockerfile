@@ -8,7 +8,9 @@ RUN npm install
 
 COPY src/ ./src
 
+RUN npm install -g serve
+
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["serve", "-s", "src", "-l", "3000"]
 
