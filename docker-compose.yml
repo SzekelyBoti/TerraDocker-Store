@@ -1,22 +1,28 @@
-version: '3.3'
+version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    environment:
+      - FLASK_ENV=development
+
   frontend:
     build:
-      context: ./Frontend
+      context: ./frontend
+    container_name: frontend
     ports:
-      - "3001:3000"
-    environment:
-      - NODE_ENV=development
+      - "3000:3000"
+    networks:
+      - app-network
     depends_on:
       - backend
 
-  backend:
-    build:
-      context: ./Backend
-    ports:
-      - "5001:5000"
-    environment:
-      - DATABASE_URL=sqlite:///games.db
-    volumes:
-      - ./Backend:/app
+networks:
+  app-network:
+    driver: bridge
