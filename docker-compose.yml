@@ -4,27 +4,29 @@ services:
   backend:
     build:
       context: ./Backend
+      dockerfile: Dockerfile
     container_name: backend
     volumes:
-      - ./Backend/games.db:/app/games.db
+      - ./Backend:/app
     ports:
       - "5000:5000"
     networks:
-      - app-network
+      - store-network
     environment:
-      - FLASK_ENV=development
+      - DATABASE_URL=sqlite:////app/games.db
 
   frontend:
     build:
       context: ./Frontend
+      dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "3001:3000"
+      - "3001:80"
     networks:
-      - app-network
+      - store-network
     depends_on:
       - backend
 
 networks:
-  app-network:
+  store-network:
     driver: bridge

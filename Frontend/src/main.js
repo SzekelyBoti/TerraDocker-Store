@@ -232,7 +232,7 @@ const addGame = async () => {
     };
 
     try {
-      const postResponse = await fetch("http://backend:5000/shop", {
+      const postResponse = await fetch("/api/shop", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -309,7 +309,7 @@ const editGame = async (gameId, bigBoy) => {
         };
 
         try {
-          const response = await fetch(`http://backend:5000/shop/${gameId}`, {
+          const response = await fetch(`/api/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -340,7 +340,7 @@ const editGame = async (gameId, bigBoy) => {
 
 async function deleteGame(gameId, bigBoy) {
   try {
-    const response = await fetch(`http://backend:5000/shop/${gameId}`, {
+    const response = await fetch(`/api/shop/${gameId}`, {
       method: "DELETE",
     });
 
@@ -376,7 +376,7 @@ const main = async () => {
   gameContainer.innerHTML = "";
 
   try {
-    const games = await fetchData("http://backend:5000/api/shop");
+    const games = await fetchData("/api/shop");
     if (games) {
       renderGames(games);
     }
@@ -422,7 +422,7 @@ const quickEditDetails = async (gameId) => {
         };
 
         try {
-          const response = await fetch(`http://backend:5000/shop/${gameId}`, {
+          const response = await fetch(`/api/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -564,7 +564,7 @@ async function fadeInCard(card) {
 
 async function fetchGame(id) {
   try {
-    const response = await fetch("http://backend:5000/shop/" + id);
+    const response = await fetch("/api/shop/" + id);
     return await response.json();
   } catch (error) {
     console.error(error);
@@ -573,7 +573,7 @@ async function fetchGame(id) {
 
 const addGameToCart = async (gameId) => {
   try {
-    const response = await fetch("http://backend:5000/shop/" + gameId);
+    const response = await fetch("/api/shop/" + gameId);
     const game = await response.json();
     if (!shoppingCart.some((item) => item.id === game.id)) {
       const gameContainer = document.getElementById("gameContainer");
@@ -725,7 +725,7 @@ window.onload = function () {
             quantity: totalQuantity - userQuantity,
           };
 
-          const response = await fetch(`http://backend:5000/shop/${gameId}`, {
+          const response = await fetch(`/api/shop/${gameId}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",

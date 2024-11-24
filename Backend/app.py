@@ -1,13 +1,16 @@
 from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Game, Base
 import os
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__),"..", "Frontend", "src"), static_url_path="/src")
-CORS(app, resources={r"/api/*": {"origins": "http://frontend:3000"}})
-DATABASE_URL = 'sqlite:////app/games.db'
+STATIC_FOLDER = os.path.join(os.path.dirname(__file__), "..", "Forntend", "src")
+
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path="/src")
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+DATABASE_URL = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'games.db')}"
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 
@@ -29,7 +32,7 @@ def get_shop():
         games = session.query(Game).all()
         return jsonify([game_to_dict(game) for game in games])
  
-@app.route('/shop/<int:game_id>', methods=['GET'])
+@app.route('/api/shop/<int:game_id>', methods=['GET'])
 def get_game(game_id):
      with Session() as session:
        game = session.query(Game).filter_by(id=game_id).first()
@@ -40,7 +43,7 @@ def get_game(game_id):
 
 from datetime import datetime
 
-@app.route('/shop', methods=['POST'])
+@app.route('/api/shop', methods=['POST'])
 def add_game():
     try:
         release_date = datetime.strptime(request.json['release_date'], '%Y-%m-%d').date()
@@ -71,7 +74,7 @@ def add_game():
         return jsonify({"error": "Internal Server Error"}), 500
 
 
-@app.route('/shop/<int:game_id>', methods=['PATCH'])
+@app.route('/api/shop/<int:game_id>', methods=['PATCH'])
 def update_game(game_id):
     try:
         with Session() as session:
@@ -87,7 +90,7 @@ def update_game(game_id):
         print("Error updating game:", error)
         return jsonify({"error": "Internal Server Error"}), 500
 
-@app.route('/shop/<int:game_id>', methods=['DELETE'])
+@app.route('/api/shop/<int:game_id>', methods=['DELETE'])
 def delete_game(game_id):
     try:
         with Session() as session:

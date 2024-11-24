@@ -1,16 +1,10 @@
-FROM node:16
+FROM nginx:alpine
 
-WORKDIR /app
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY package*.json ./
+COPY src/ /usr/share/nginx/html/
 
-RUN npm install
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY src/ ./src
-
-RUN npm install -g serve
-
-EXPOSE 3000
-
-CMD ["serve", "-s", "src", "-l", "3000"]
+EXPOSE 80
 
