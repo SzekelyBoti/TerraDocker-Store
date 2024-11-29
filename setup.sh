@@ -26,12 +26,13 @@ if [ "$choice" == "1" ]; then
 elif [ "$choice" == "2" ]; then
   echo -e "${GREEN}Deploying to Minikube...${NC}"
 
-  minikube start
-
-  kubectl apply -f minikube/backend-deployment.yaml
-  kubectl apply -f minikube/backend-service.yaml
-  kubectl apply -f minikube/frontend-deployment.yaml
-  kubectl apply -f minikube/frontend-service.yaml
+  minikube start --memory=1900mb --cpus=2
+  minikube -p minikube mount ./Frontend:/mnt/Frontend &
+  minikube -p minikube mount ./Backend:/mnt/Backend &
+  kubectl apply -f Minikube/backend-pvc.yaml
+  kubectl apply -f Minikube/nginx-configmap.yml
+  kubectl apply -f Minikube/backend-deployment.yaml
+  kubectl apply -f Minikube/frontend-deployment.yaml
 
   echo -e "${GREEN}To access frontend:${NC} minikube service frontend-service"
   echo -e "${GREEN}To access backend:${NC} minikube service backend-service"

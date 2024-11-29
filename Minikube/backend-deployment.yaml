@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-backend
+  name: backend
   labels:
-    app: flask-backend
+    app: backend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: flask-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: flask-backend
+        app: backend
     spec:
       containers:
-        - name: flask-backend
+        - name: backend
           image: boti95/store-backend:latest
           ports:
             - containerPort: 5000
@@ -23,8 +23,22 @@ spec:
             - name: DATABASE_URL
               value: "sqlite:///games.db"
           volumeMounts:
-            - name: flask-storage
-              mountPath: /app/games.db
+            - mountPath: /app
+              name: backend-volume
       volumes:
-        - name: flask-storage
-          emptyDir: {}
+        - name: backend-volume
+          hostPath:
+            path: /mnt/Backend
+            type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+  selector:
+    app: backend
+  type: NodePort
