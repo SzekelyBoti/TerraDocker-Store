@@ -34,8 +34,8 @@ elif [ "$choice" == "2" ]; then
   kubectl apply -f Minikube/backend-deployment.yaml
   kubectl apply -f Minikube/frontend-deployment.yaml
 
-  echo -e "${GREEN}To access frontend:${NC} minikube service frontend-service"
-  echo -e "${GREEN}To access backend:${NC} minikube service backend-service"
+  echo -e "${GREEN}To access frontend:${NC} minikube service frontend"
+  echo -e "${GREEN}To access backend:${NC} minikube service backend"
 else
   echo -e "${RED}Invalid choice. Exiting setup.${NC}"
 fi
