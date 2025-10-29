@@ -5,7 +5,7 @@
 <h3 align="center">Game Store App</h3>
 
   <p align="center">
-    A game marketplace application inspired by platforms like G2A. This app allows users to browse and purchase games, featuring a Java-based frontend, a Python backend with CRUD capabilities, and a SQLAlchemy-managed database. It is containerized with Docker and deployable via Docker Compose, Minikube, or AWS (using Terraform).
+    A game marketplace application inspired by platforms like G2A. This app allows users to browse and purchase games, featuring a JavaScript-based frontend, a Python backend with CRUD capabilities, and a SQLAlchemy-managed database. It is containerized with Docker and deployable via Docker Compose, Minikube, or AWS (using Terraform).
     <br />
     <a href="https://github.com/SzekelyBoti/TerraDocker-Store"><strong>Explore the docs »</strong></a>
     <br />
@@ -45,7 +45,7 @@
 
 Game Store App is a modern game marketplace application with the following features:
 
-    Frontend: Built with Java for an interactive user experience similar to G2A.
+    Frontend: Built with JavaScript for an interactive user experience similar to G2A.
     Backend: Python-based backend for efficient CRUD operations.
     Database: SQLAlchemy for managing and storing game-related data.
     Containerization: Dockerized for consistent and portable deployments.
@@ -60,7 +60,7 @@ Game Store App is a modern game marketplace application with the following featu
 ### Built With
 
 
-* [![Java][Java]][Java-url]
+* [![JavaScript][JavaScript]][Java-url]
 * [![Python][Python]][Python-url]
 * [![SQLAlchemy][SQLAlchemy]][SQLAlchemy-url]
 * [![Docker][Docker]][Docker-url]
@@ -150,8 +150,8 @@ Project Link: [![GitHub][GitHub]][GitHub-url]
 [GitHub-url]: https://github.com/SzekelyBoti/TerraDocker-Store
 [LinkedIn]: https://img.shields.io/badge/LinkedIn-20232A?style=for-the-badge&logo=linkedin&logoColor=61DAFB
 [linkedin-url]: https://linkedin.com/in/boti-szekely
-[Java]: https://img.shields.io/badge/Java-20232A?style=for-the-badge&logo=java&logoColor=61DAFB
-[Java-url]: https://www.java.com/en/
+[JavaScript]: https://img.shields.io/badge/JavaScript-20232A?style=for-the-badge&logo=java&logoColor=61DAFB
+[Java-url]: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction]
 [Python]: https://img.shields.io/badge/Python-20232A?style=for-the-badge&logo=python&logoColor=61DAFB
 [Python-url]: https://www.python.org/
 [SQLAlchemy]: https://img.shields.io/badge/SQLAlchemy-20232A?style=for-the-badge&logo=sqlalchemy&logoColor=61DAFB
